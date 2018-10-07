@@ -14,20 +14,18 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const body = req.body;
-  try {
-    Movie.create({
-      title: body.title,
-      director: body.director,
-      stars: body.stars,
-      image: body.image,
-      description: body.description,
-      showtimes: body.showtimes,
-    });
-    res.status(200).json({ success: true });
-  } catch (e) {
-    res.status(401).json({ message: 'invalid user/password' });
-  }
+  Movie.create({
+    title: body.title,
+    director: body.director,
+    stars: body.stars,
+    image: body.image,
+    description: body.description,
+    showtimes: body.showtimes,
+  })
+    .then(() => res.status(200).json({ success: true }))
+    .catch(err => res.status(401).json({ message: 'movie not added' }));
 });
+
 /* Aquí con get creamos la ruta y le decimos que encuentre(find) todas las peliculas.
 Usamos una promesa con su then y su catch por si hay error. En el caso de éxito, renderiza la vista movies, {peliculas como variable}
  */
